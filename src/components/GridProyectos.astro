@@ -1,0 +1,115 @@
+---
+import CardProyecto from './CardProyecto.astro';
+import CardProyectoSkeleton from './CardProyectoSkeleton.astro';
+import { proyectos } from '../data/proyectos';
+
+const proyectosJson = JSON.stringify(proyectos);
+const categoriaLabel = {
+	residencial: 'Residencial',
+	comercial: 'Comercial',
+	medicion: 'Medición',
+};
+const iniciales = proyectos.slice(0, 6);
+---
+
+<div id="grid-proyectos" class="grid grid-cols-1 gap-element md:grid-cols-2 lg:grid-cols-3">
+	{iniciales.map((proyecto) => <CardProyecto proyecto={proyecto} />)}
+</div>
+
+<div
+	id="grid-skeletons"
+	class="mt-element grid grid-cols-1 gap-element md:grid-cols-2 lg:grid-cols-3"
+	hidden
+>
+	{Array.from({ length: 6 }).map(() => <CardProyectoSkeleton />)}
+</div>
+
+<div id="sin-resultados" class="mt-component text-center font-body text-body text-text-secondary" hidden>
+	No hay proyectos en esta categoría.
+</div>
+
+<div id="grid-sentinel" aria-hidden="true"></div>
+
+<script type="application/json" id="proyectos-data" set:html={proyectosJson}></script>
+
+<script>
+	const dataEl = document.getElementById('proyectos-data') as HTMLScriptElement;
+	const proyectos = JSON.parse(dataEl.textContent ?? '[]') as Array<{
+		id: string;
+		titulo: string;
+		categoria: 'residencial' | 'comercial' | 'medicion';
+	}>;
+
+	const grid = document.getElementById('grid-proyectos') as HTMLDivElement;
+	const skeletons = document.getElementById('grid-skeletons') as HTMLDivElement;
+	const sentinel = document.getElementById('grid-sentinel') as HTMLDivElement;
+	const sinResultados = document.getElementById('sin-resultados') as HTMLDivElement;
+
+	const STEP = 6;
+	const categoriaLabel: Record<string, string> = {
+		residencial: 'Residencial',
+		comercial: 'Comercial',
+		medicion: 'Medición',
+	};
+
+	let filtro = 'todos';
+	let visibles = STEP;
+	let cargando = false;
+
+	const filtrados = () =>
+		filtro === 'todos'
+			? proyectos
+			: proyectos.filter((p) => p.categoria === filtro);
+
+	const cardHTML = (p: (typeof proyectos)[number]) => `
+		<a href="/proyectos/${p.id}" class="group relative block aspect-video overflow-hidden rounded-md">
+			<div class="absolute inset-0 bg-accent-light"></div>
+			<div class="absolute inset-0 flex items-center justify-center bg-text-primary/0 opacity-0 transition-all duration-base group-hover:bg-text-primary/50 group-hover:opacity-100">
+				<div class="px-4">
+					<h3 class="font-display text-h3 font-semibold text-white">${p.titulo}</h3>
+					<span class="mt-2 inline-block rounded-full bg-base-white/90 px-3 py-1 font-display text-caption text-text-primary">${categoriaLabel[p.categoria]}</span>
+				</div>
+			</div>
+		</a>
+	`;
+
+	function render() {
+		const lista = filtrados();
+		grid.innerHTML = lista.slice(0, visibles).map(cardHTML).join('');
+		sentinel.hidden = visibles >= lista.length;
+		sinResultados.hidden = lista.length > 0;
+	}
+
+	function cargarMas() {
+		const lista = filtrados();
+		if (cargando || visibles >= lista.length) return;
+
+		cargando = true;
+		skeletons.hidden = false;
+		setTimeout(() => {
+			cargando = false;
+			skeletons.hidden = true;
+			visibles += STEP;
+			render();
+		}, 500);
+	}
+
+	const observer = new IntersectionObserver(
+		(entries) => {
+			if (entries.some((entry) => entry.isIntersecting)) cargarMas();
+		},
+		{ rootMargin: '200px' },
+	);
+	observer.observe(sentinel);
+
+	document.addEventListener('filtrar-categorias', (event: Event) => {
+		const { categoria } = (event as CustomEvent<{ categoria: string }>).detail;
+		filtro = categoria;
+		visibles = STEP;
+		cargando = false;
+		skeletons.hidden = true;
+		render();
+	});
+
+	render();
+</script>

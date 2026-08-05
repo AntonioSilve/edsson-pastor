@@ -32,8 +32,9 @@ export default {
 			fontSize: {
 				logo: ['24px', { lineHeight: '1.15' }],
 				hero: ['56px', { lineHeight: '1.05' }],
-				h2: ['36px', { lineHeight: '1.15' }],
-				h3: ['22px', { lineHeight: '1.4' }],
+				h1: ['40px', { lineHeight: '1.15' }],
+				h2: ['32px', { lineHeight: '1.2' }],
+				h3: ['20px', { lineHeight: '1.4' }],
 				body: ['18px', { lineHeight: '1.7' }],
 				small: ['14px', { lineHeight: '1.5' }],
 				caption: ['12px', { lineHeight: '1.5' }],

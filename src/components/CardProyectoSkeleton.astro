@@ -1,0 +1,12 @@
+---
+import Skeleton from './atoms/Skeleton.astro';
+---
+
+<div class="relative block aspect-video overflow-hidden rounded-md bg-accent-light/50">
+	<div class="flex h-full w-full items-center justify-center p-4">
+		<Skeleton width="w-3/4" height="h-4" rounded="rounded-md" />
+	</div>
+	<span class="absolute bottom-3 left-3">
+		<Skeleton width="w-16" height="h-3" rounded="rounded-full" />
+	</span>
+</div>

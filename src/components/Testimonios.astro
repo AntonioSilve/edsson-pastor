@@ -31,7 +31,7 @@ const usePlaceholder = testimonios.length === 0;
 ---
 
 <section id="testimonios" class="scroll-mt-24 py-section">
-	<div class="mx-auto max-w-6xl px-6 lg:px-8">
+	<div class="container-page">
 		<h2 class="text-center font-display text-h2 font-semibold tracking-tight text-text-primary">
 			Lo que dicen mis clientes
 		</h2>
@@ -50,7 +50,7 @@ const usePlaceholder = testimonios.length === 0;
 						{
 							testimonios.map(({ quote, author, project }) => (
 								<div
-									class="min-w-full snap-center rounded-lg bg-base-warm p-element md:min-w-0"
+									class="min-w-full shrink-0 snap-center rounded-lg bg-base-warm p-element sm:min-w-[calc(50%-24px)] lg:min-w-0 lg:shrink"
 								>
 									<blockquote class="font-body text-body italic text-text-primary">
 										“{quote}”

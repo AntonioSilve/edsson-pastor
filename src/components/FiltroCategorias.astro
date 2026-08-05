@@ -1,0 +1,66 @@
+---
+import { CATEGORIAS } from '../data/proyectos';
+---
+
+<div class="sticky top-16 z-30 bg-base-white/90 backdrop-blur">
+	<div class="container-page py-4">
+		<div
+			class="filtro-pills -mx-6 flex gap-tight overflow-x-auto px-6 sm:justify-center lg:mx-0 lg:px-0"
+			role="tablist"
+			aria-label="Filtrar proyectos por categoría"
+		>
+			{
+				CATEGORIAS.map(({ id, label }, index) => (
+					<button
+						data-filtro-grupo
+						type="button"
+						role="tab"
+						aria-selected={index === 0}
+						data-categoria={id}
+						class={`categoria-pill shrink-0 rounded-full px-5 py-2 font-display text-small transition-colors duration-base${index === 0 ? ' active' : ''}`}
+					>
+						{label}
+					</button>
+				))
+			}
+		</div>
+	</div>
+</div>
+
+<style>
+	[data-categoria] {
+		border: 1px solid transparent;
+	}
+	[data-categoria].active {
+		background-color: var(--color-accent);
+		color: white;
+	}
+	[data-categoria]:not(.active) {
+		background-color: var(--color-base-warm);
+		color: var(--color-text-secondary);
+	}
+	[data-categoria]:not(.active):hover {
+		background-color: var(--color-accent-light);
+	}
+</style>
+
+<script>
+	const pills = document.querySelectorAll<HTMLElement>('[data-filtro-grupo]');
+
+	pills.forEach((pill) => {
+		pill.addEventListener('click', () => {
+			pills.forEach((p) => {
+				p.classList.remove('active');
+				p.setAttribute('aria-selected', 'false');
+			});
+			pill.classList.add('active');
+			pill.setAttribute('aria-selected', 'true');
+
+			document.dispatchEvent(
+				new CustomEvent('filtrar-categorias', {
+					detail: { categoria: pill.dataset.categoria },
+				}),
+			);
+		});
+	});
+</script>

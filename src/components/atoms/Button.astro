@@ -3,10 +3,17 @@ interface Props {
 	variant?: 'primary' | 'secondary';
 	href?: string;
 	type?: 'submit' | 'button' | 'reset';
+	disabled?: boolean;
 	class?: string;
 }
 
-const { variant = 'primary', href, type = 'button', class: className = '' } = Astro.props;
+const {
+	variant = 'primary',
+	href,
+	type = 'button',
+	disabled = false,
+	class: className = '',
+} = Astro.props;
 
 const baseClass =
 	'inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 font-display text-sm font-medium transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
@@ -15,10 +22,16 @@ const variantClass =
 	variant === 'primary'
 		? 'bg-accent text-white hover:bg-accent-hover'
 		: 'border border-accent bg-transparent text-accent hover:bg-accent-light';
+
+const disabledClass = disabled ? 'pointer-events-none cursor-not-allowed opacity-40' : '';
 ---
 
 {
-	href ? (
+	disabled ? (
+		<span class={`${baseClass} ${variantClass} ${disabledClass} ${className}`} aria-disabled="true">
+			<slot />
+		</span>
+	) : href ? (
 		<a href={href} class={`${baseClass} ${variantClass} ${className}`}>
 			<slot />
 		</a>

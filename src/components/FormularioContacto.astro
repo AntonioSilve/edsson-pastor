@@ -1,0 +1,258 @@
+---
+import MapaUbicacion from './MapaUbicacion.astro';
+import { CONTACT } from '../consts';
+
+const WEB3FORMS_ACCESS_KEY = 'TU_WEB3FORMS_KEY';
+---
+
+<section id="contacto" class="scroll-mt-24 py-section">
+	<div class="container-page">
+		<div class="max-w-2xl">
+			<h2 class="font-display text-h2 font-semibold tracking-tight text-text-primary">
+				Contacto
+			</h2>
+			<p class="mt-4 font-body text-body text-text-secondary">
+				Cuéntame sobre tu proyecto
+			</p>
+		</div>
+
+		<div class="mt-component grid gap-component lg:grid-cols-[3fr_2fr]">
+			<div class="min-w-0">
+			<form
+				id="contact-form"
+				action="https://api.web3forms.com/submit"
+				method="POST"
+				novalidate
+				class="grid grid-cols-1 gap-element"
+			>
+				<input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+				<input type="hidden" name="subject" value="Nuevo mensaje desde el portfolio" />
+
+				<div class="grid grid-cols-1 gap-x-6 gap-y-element sm:grid-cols-2">
+					<div class="campo">
+						<label class="block font-display text-small text-text-secondary" for="nombre">Nombre completo</label>
+						<input name="nombre" id="nombre" type="text" required minlength="3" placeholder="Ej. Juan Pérez" data-validar="nombre" aria-describedby="error-nombre" class="campo-input" />
+						<p id="error-nombre" class="campo-error" data-error-for="nombre" hidden><span class="campo-error-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>El nombre debe tener al menos 3 caracteres.</p>
+					</div>
+					<div class="campo">
+						<label class="block font-display text-small text-text-secondary" for="email">Correo electrónico</label>
+						<input name="email" id="email" type="email" required placeholder="Ej. juan@email.com" data-validar="email" aria-describedby="error-email" class="campo-input" />
+						<p id="error-email" class="campo-error" data-error-for="email" hidden><span class="campo-error-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>Ingresa un correo electrónico válido.</p>
+					</div>
+				</div>
+
+				<div class="campo">
+					<label class="block font-display text-small text-text-secondary" for="telefono">Teléfono (opcional)</label>
+					<input name="telefono" id="telefono" type="tel" placeholder="Ej. +502 1234 5678" data-validar="telefono" aria-describedby="error-telefono" class="campo-input" />
+					<p id="error-telefono" class="campo-error" data-error-for="telefono" hidden><span class="campo-error-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>Ingresa un número válido (mínimo 8 dígitos).</p>
+				</div>
+
+				<div class="campo">
+					<label class="block font-display text-small text-text-secondary" for="tipo">Tipo de proyecto</label>
+					<select name="tipo" id="tipo" required data-validar="tipo" aria-describedby="error-tipo" class="campo-input">
+						<option value="" selected disabled>Selecciona una opción</option>
+						<option value="residencial">Residencial</option>
+						<option value="comercial">Comercial</option>
+						<option value="medicion">Medición de terrenos</option>
+						<option value="otro">Otro</option>
+					</select>
+					<p id="error-tipo" class="campo-error" data-error-for="tipo" hidden><span class="campo-error-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>Selecciona un tipo de proyecto.</p>
+				</div>
+
+				<div class="campo">
+					<label class="block font-display text-small text-text-secondary" for="mensaje">Describe tu proyecto</label>
+					<textarea name="mensaje" id="mensaje" rows="5" required minlength="10" aria-describedby="error-mensaje" placeholder="Cuéntame los detalles de tu proyecto, ubicación, tamaño aproximado, presupuesto estimado..." data-validar="mensaje" class="campo-input resize-y"></textarea>
+					<p id="error-mensaje" class="campo-error" data-error-for="mensaje" hidden><span class="campo-error-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>El mensaje debe tener al menos 10 caracteres.</p>
+				</div>
+
+				<div class="campo">
+					<label class="flex items-start gap-3 font-body text-small text-text-secondary" for="legal">
+						<input name="legal" id="legal" type="checkbox" data-validar="legal" aria-describedby="error-legal" class="mt-0.5 h-4 w-4 accent-accent" />
+						<span>Acepto que mis datos sean utilizados únicamente para responder mi consulta.</span>
+					</label>
+					<p id="error-legal" class="campo-error" data-error-for="legal" hidden><span class="campo-error-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>Acepta el tratamiento de tus datos.</p>
+				</div>
+
+				<div>
+					<p id="form-error" class="mb-3 rounded-md border border-error/40 bg-error/10 px-4 py-3 font-body text-small text-error" hidden>
+						Hubo un error al enviar. Intenta de nuevo o contáctame directamente por teléfono o email.
+					</p>
+
+					<button id="submit-btn" type="submit" class="group inline-flex items-center justify-center gap-2 rounded-md bg-accent px-6 py-3 font-display text-sm font-medium text-white transition-colors duration-base hover:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+						<span id="submit-text">Enviar mensaje</span>
+						<svg id="submit-spinner" class="hidden h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+							<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+							<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v3a5 5 0 00-5 5z"></path>
+						</svg>
+					</button>
+				</div>
+			</form>
+
+			<div id="form-success" class="flex flex-col items-center gap-3 rounded-lg bg-success/10 p-component text-center" role="status" hidden>
+				<span class="flex h-12 w-12 items-center justify-center rounded-full bg-success text-white">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M20 6 9 17l-5-5"></path>
+					</svg>
+				</span>
+				<p class="font-body text-body text-success">
+					¡Gracias! Tu mensaje ha sido enviado. Te contactaré pronto.
+				</p>
+			</div>
+			</div>
+
+			<aside class="flex min-w-0 flex-col gap-component">
+				<MapaUbicacion />
+
+				<div class="flex flex-col gap-element rounded-lg bg-base-warm p-element">
+					<h3 class="font-display text-h3 font-semibold text-text-primary">
+						Contacto directo
+					</h3>
+					<ul class="space-y-element">
+						<li>
+							<a href={CONTACT.phoneHref} class="font-body text-text-secondary transition-colors duration-base hover:text-accent">
+								{CONTACT.phone}
+							</a>
+						</li>
+						<li>
+							<a href={CONTACT.emailHref} class="font-body text-text-secondary transition-colors duration-base hover:text-accent">
+								{CONTACT.email}
+							</a>
+						</li>
+						<li class="font-body text-text-secondary">
+							{CONTACT.location}
+						</li>
+					</ul>
+				</div>
+			</aside>
+		</div>
+	</div>
+
+	<script>
+		const form = document.getElementById('contact-form') as HTMLFormElement;
+		const formError = document.getElementById('form-error') as HTMLParagraphElement;
+		const success = document.getElementById('form-success') as HTMLParagraphElement;
+		const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+		const submitText = document.getElementById('submit-text') as HTMLSpanElement;
+		const submitSpinner = document.getElementById('submit-spinner') as SVGSVGElement;
+
+		const validadores: Record<string, (value: string, checked?: boolean) => boolean> = {
+			nombre: (v) => v.trim().length >= 3,
+			email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()),
+			telefono: (v) => v.trim() === '' || (v.replace(/\D/g, '').length >= 8),
+			tipo: (v) => v !== '' ,
+			mensaje: (v) => v.trim().length >= 10,
+			legal: (v, checked) => Boolean(checked),
+		};
+		const errores: Record<string, string> = {
+			nombre: 'El nombre debe tener al menos 3 caracteres.',
+			email: 'Ingresa un correo electrónico válido.',
+			telefono: 'Ingresa un número válido (mínimo 8 dígitos).',
+			tipo: 'Selecciona un tipo de proyecto.',
+			mensaje: 'El mensaje debe tener al menos 10 caracteres.',
+			legal: 'Acepta el tratamiento de tus datos.',
+		};
+
+		const setEstado = (campo: string, valido: boolean) => {
+			const el = document.querySelector<HTMLElement>(`[data-validar="${campo}"]`);
+			const error = document.querySelector<HTMLElement>(`[data-error-for="${campo}"]`);
+			if (!el) return;
+			el.classList.toggle('!border-error', !valido);
+			const esCheckbox = el instanceof HTMLInputElement && el.type === 'checkbox';
+			el.classList.toggle('!border-success', valido && el.value !== '' && !esCheckbox);
+			if (error) error.hidden = valido;
+		};
+
+		const validarCampo = (campo: string) => {
+			const el = document.querySelector<HTMLInputElement>(`[data-validar="${campo}"]`);
+			if (!el) return true;
+			const valido = validadores[campo](el.value, el instanceof HTMLInputElement && el.type === 'checkbox' ? el.checked : undefined);
+			setEstado(campo, valido);
+			return valido;
+		};
+
+		document.querySelectorAll('[data-validar]').forEach((el) => {
+			el.addEventListener('blur', () => {
+				const campo = (el as HTMLElement).dataset.validar!;
+				validarCampo(campo);
+			});
+			if ((el as HTMLInputElement).type === 'checkbox') {
+				el.addEventListener('change', () => {
+					const campo = (el as HTMLElement).dataset.validar!;
+					validarCampo(campo);
+				});
+			}
+		});
+
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+
+			const campos = ['nombre', 'email', 'telefono', 'tipo', 'mensaje', 'legal'];
+			const resultados = campos.map(validarCampo);
+			const errorIndex = resultados.indexOf(false);
+
+			if (errorIndex !== -1) {
+				const el = form.querySelector(`[data-validar="${campos[errorIndex]}"]`);
+				(el as HTMLElement)?.focus();
+				return;
+			}
+
+			formError.hidden = true;
+			submitText.textContent = 'Enviando...';
+			submitSpinner.classList.remove('hidden');
+			submitBtn.disabled = true;
+			form.querySelectorAll('input, select, textarea').forEach((c) => {
+				(c as HTMLInputElement).disabled = true;
+			});
+
+			try {
+				const data = new FormData(form);
+				const res = await fetch(form.action, { method: 'POST', body: data });
+				if (!res.ok) throw new Error('HTTP ' + res.status);
+				form.hidden = true;
+				success.classList.remove('hidden');
+			} catch {
+				formError.hidden = false;
+				submitBtn.disabled = false;
+				submitText.textContent = 'Enviar mensaje';
+				submitSpinner.classList.add('hidden');
+				form.querySelectorAll('input, select, textarea').forEach((c) => {
+					(c as HTMLInputElement).disabled = false;
+				});
+			}
+		});
+	</script>
+</section>
+
+<style>
+	.campo-input {
+		width: 100%;
+		border-radius: 8px;
+		border: 1px solid rgb(107 101 96 / 0.3);
+		background-color: #ffffff;
+		padding: 12px 16px;
+		font-family: 'Lora', serif;
+		font-size: 16px;
+		color: #2c2a28;
+		transition: border-color 200ms ease;
+	}
+	.campo-input::placeholder {
+		color: rgb(107 101 96 / 0.7);
+	}
+	.campo-input:focus {
+		outline: none;
+		border-color: #7d6b5f;
+	}
+	.campo-error {
+		display: flex;
+		align-items: flex-start;
+		gap: 6px;
+		margin-top: 6px;
+		font-family: 'Lora', serif;
+		font-size: 14px;
+		color: #8b4a4a;
+	}
+	.campo-error-icon {
+		flex-shrink: 0;
+		margin-top: 2px;
+	}
+</style>

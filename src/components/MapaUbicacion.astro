@@ -1,0 +1,64 @@
+---
+import Skeleton from './atoms/Skeleton.astro';
+import { CONTACT } from '../consts';
+
+const mapEmbedUrl = 'https://maps.google.com/maps?q=14.9167,-91.3667&z=13&output=embed';
+const mapsLink = 'https://www.google.com/maps?q=14.9167,-91.3667';
+---
+
+<div class="relative w-full overflow-hidden rounded-lg bg-base-warm">
+	<div class="h-[300px] md:h-[450px]">
+		<iframe
+			id="mapa-ubicacion"
+			class="h-full w-full border-0"
+			src={mapEmbedUrl}
+			width="100%"
+			height="450"
+			style="border:0;"
+			allowfullscreen
+			loading="lazy"
+			title="Ubicación del estudio en Totonicapán, Guatemala"
+			referrerpolicy="no-referrer-when-downgrade"
+		></iframe>
+	</div>
+
+	<div
+		id="mapa-placeholder"
+		class="absolute inset-0 z-10 flex items-center justify-center bg-base-warm"
+	>
+		<div class="w-3/4 max-w-xs">
+			<Skeleton height="h-64" rounded="rounded-lg" />
+		</div>
+	</div>
+
+	<div id="mapa-fallback" class="absolute inset-0 z-20 hidden flex-col items-center justify-center gap-3 bg-base-warm px-6 text-center">
+		<p class="font-body text-body text-text-primary">{CONTACT.location}</p>
+		<a
+			href={mapsLink}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="font-display text-small font-medium text-accent transition-colors duration-base hover:text-accent-hover"
+		>
+			Abrir en Google Maps →
+		</a>
+	</div>
+</div>
+
+<script>
+	const iframe = document.getElementById('mapa-ubicacion') as HTMLIFrameElement;
+	const placeholder = document.getElementById('mapa-placeholder') as HTMLDivElement;
+	const fallback = document.getElementById('mapa-fallback') as HTMLDivElement;
+
+	if (iframe) {
+		iframe.addEventListener('load', () => {
+			placeholder.classList.add('hidden');
+		});
+		iframe.addEventListener('error', () => {
+			placeholder.classList.add('hidden');
+			fallback.classList.remove('hidden');
+		});
+		window.setTimeout(() => {
+			placeholder.classList.add('hidden');
+		}, 8000);
+	}
+</script>

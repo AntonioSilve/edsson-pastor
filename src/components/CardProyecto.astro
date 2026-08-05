@@ -1,0 +1,44 @@
+---
+interface Proyecto {
+	id: string;
+	titulo: string;
+	categoria: 'residencial' | 'comercial' | 'medicion';
+	descripcion: string;
+	videoUrl: string;
+	año: number;
+	ubicacion: string;
+}
+
+interface Props {
+	proyecto: Proyecto;
+}
+
+const { proyecto } = Astro.props;
+
+const categoriaLabel = {
+	residencial: 'Residencial',
+	comercial: 'Comercial',
+	medicion: 'Medición',
+}[proyecto.categoria];
+---
+
+<a
+	href={`/proyectos/${proyecto.id}`}
+	class="group relative block aspect-video overflow-hidden rounded-md"
+>
+	<div class="absolute inset-0 bg-accent-light"></div>
+	<div
+		class="absolute inset-0 flex items-center justify-center bg-text-primary/0 opacity-0 transition-all duration-base group-hover:bg-text-primary/50 group-hover:opacity-100"
+	>
+		<div class="px-4">
+			<h3 class="font-display text-h3 font-semibold text-white">
+				{proyecto.titulo}
+			</h3>
+			<span
+				class="mt-2 inline-block rounded-full bg-base-white/90 px-3 py-1 font-display text-caption text-text-primary"
+				>
+				{categoriaLabel}
+			</span>
+		</div>
+	</div>
+</a>

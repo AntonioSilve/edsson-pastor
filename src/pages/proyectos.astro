@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FiltroCategorias from '../components/FiltroCategorias.astro';
+import GridProyectos from '../components/GridProyectos.astro';
+
+const title = 'Proyectos | Edson Everaldo Pastor';
+const description =
+	'Portafolio de proyectos de arquitectura del Arq. Edson Everaldo Pastor: residencial, comercial y medición de terrenos.';
+---
+
+<BaseLayout title={title} description={description}>
+	<FiltroCategorias />
+
+	<main id="contenido" class="container-page py-component">
+		<header class="mb-element">
+			<h1 class="font-display text-h2 font-semibold tracking-tight text-text-primary">
+				Proyectos
+			</h1>
+			<p class="mt-3 font-body text-body text-text-secondary">
+				Selección de obras residenciales, comerciales y levantamientos topográficos.
+			</p>
+		</header>
+
+		<GridProyectos />
+	</main>
+</BaseLayout>

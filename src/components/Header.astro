@@ -5,7 +5,7 @@ import { NAV_LINKS } from '../consts';
 ---
 
 <header id="site-header" class="sticky top-0 z-50 bg-base-white/90 backdrop-blur transition-all duration-base">
-	<div class="header-inner mx-auto flex max-w-6xl items-center justify-between px-6 py-4 transition-all duration-base lg:px-8 lg:py-5">
+	<div class="header-inner container-page flex items-center justify-between py-4 transition-all duration-base lg:py-5">
 		<LogoPlaceholder />
 
 		<nav class="hidden items-center gap-8 lg:flex" aria-label="Navegación principal">
@@ -76,7 +76,12 @@ import { NAV_LINKS } from '../consts';
 		menu.classList.remove('open');
 		menu.setAttribute('aria-hidden', 'true');
 		document.body.style.overflow = '';
+		if (document.activeElement instanceof HTMLElement && menu.contains(document.activeElement)) {
+			lastFocused?.focus();
+		}
 	};
+
+	let lastFocused: HTMLElement | null = null;
 
 	const onScroll = () => {
 		if (window.scrollY > 50) {
@@ -93,11 +98,30 @@ import { NAV_LINKS } from '../consts';
 	document.addEventListener('toggle-menu', (event: Event) => {
 		const { open } = (event as CustomEvent<{ open: boolean }>).detail;
 		if (open) {
+			lastFocused = document.activeElement as HTMLElement;
 			menu.classList.add('open');
 			menu.setAttribute('aria-hidden', 'false');
 			document.body.style.overflow = 'hidden';
+			const firstLink = menu.querySelector('a') as HTMLElement | null;
+			firstLink?.focus();
 		} else {
 			closeMenu();
+		}
+	});
+
+	menu.addEventListener('keydown', (event: KeyboardEvent) => {
+		if (event.key === 'Tab') {
+			const links = Array.from(menu.querySelectorAll('a')) as HTMLElement[];
+			if (links.length === 0) return;
+			const first = links[0];
+			const last = links[links.length - 1];
+			if (event.shiftKey && document.activeElement === first) {
+				event.preventDefault();
+				last.focus();
+			} else if (!event.shiftKey && document.activeElement === last) {
+				event.preventDefault();
+				first.focus();
+			}
 		}
 	});
 

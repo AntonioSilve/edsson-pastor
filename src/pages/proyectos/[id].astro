@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/atoms/Button.astro';
+import { proyectos } from '../../data/proyectos';
+
+export function getStaticPaths() {
+	return proyectos.map((proyecto) => ({
+		params: { id: proyecto.id },
+		props: { proyecto },
+	}));
+}
+
+interface Props {
+	proyecto: (typeof proyectos)[number];
+}
+
+const { proyecto } = Astro.props;
+
+const { id, titulo, categoria, videoUrl, año, ubicacion } = proyecto;
+
+const index = proyectos.findIndex((p) => p.id === id);
+const anterior = index > 0 ? proyectos[index - 1] : null;
+const siguiente = index < proyectos.length - 1 ? proyectos[index + 1] : null;
+
+const categoriaLabel = {
+	residencial: 'Residencial',
+	comercial: 'Comercial',
+	medicion: 'Medición',
+}[categoria];
+
+const title = `${titulo} | Edson Everaldo Pastor`;
+
+const galeria = Array.from({ length: 5 });
+---
+
+<BaseLayout title={title} description={proyecto.descripcion}>
+	<section class="bg-base-white">
+		<div class="container-page py-element">
+			<div class="relative aspect-video overflow-hidden rounded-md bg-accent-light md:max-h-[60vh] lg:max-h-[70vh]">
+				<iframe
+					id="video-proyecto"
+					class="absolute inset-0 h-full w-full"
+					src={videoUrl}
+					title={titulo}
+					width="1280"
+					height="720"
+					loading="lazy"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+					allowfullscreen
+				></iframe>
+				<div
+					id="video-placeholder"
+					class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-accent-light"
+				>
+					<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-text-secondary" aria-hidden="true">
+						<path d="M21 12a9 9 0 1 1-6.2-8.5"></path>
+						<polyline points="11 5.6 13.5 3.3 15.6 3.5 17.6 2.6"></polyline>
+						<path d="M16 12l-5 3V9Z"></path>
+					</svg>
+					<span id="video-placeholder-text" class="font-mono text-small text-text-secondary">
+						Cargando vídeo…
+					</span>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script>
+		const iframe = document.getElementById('video-proyecto') as HTMLIFrameElement;
+		const placeholder = document.getElementById('video-placeholder') as HTMLDivElement;
+		const placeholderText = document.getElementById('video-placeholder-text') as HTMLSpanElement;
+
+		if (iframe && placeholder) {
+			iframe.addEventListener('load', () => {
+				placeholder.classList.add('hidden');
+			});
+			iframe.addEventListener('error', () => {
+				if (placeholderText) {
+					placeholderText.textContent = 'Vídeo no disponible temporalmente';
+				}
+				placeholder.classList.remove('hidden');
+			});
+		}
+	</script>
+
+	<main id="contenido" class="container-page pb-section">
+		<div class="flex flex-col gap-component md:flex-row">
+			<div class="flex-1">
+				<h1 class="font-display text-h1 font-semibold tracking-tight text-text-primary">
+					{titulo}
+				</h1>
+				<span
+					class="mt-4 inline-block rounded-full bg-accent-light px-3 py-1 font-display text-caption font-medium text-accent"
+				>
+					{categoriaLabel}
+				</span>
+
+				<div class="mt-component space-y-element font-body text-body text-text-secondary">
+					<p>
+						{proyecto.descripcion}
+					</p>
+					<p>
+						Este proyecto fue desarrollado por el estudio del Arq. Edson Everaldo Pastor,
+						partiendo de un análisis profundo del contexto, las necesidades del cliente y
+						las condiciones particulares del terreno. Cada decisión de diseño se orientó a
+						lograr un equilibrio entre funcionalidad, estética y sostenibilidad.
+					</p>
+					<p>
+						El proceso incluyó levantamientos topográficos, anteproyecto, planos
+						constructivos y supervisión de obra, asegurando que el resultado final
+						cumpliera con los estándares de calidad y los plazos acordados.
+					</p>
+				</div>
+
+				<div class="mt-component grid grid-cols-1 gap-element sm:grid-cols-2">
+					{
+						galeria.map(() => (
+							<div
+								class="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-md bg-accent-light transition-transform duration-base hover:scale-[1.02]"
+							>
+								<span class="font-display text-small font-medium tracking-[0.2em] text-text-secondary uppercase">
+									Imagen del proyecto
+								</span>
+							</div>
+						))
+					}
+				</div>
+			</div>
+
+			<aside class="h-fit rounded-lg bg-base-warm p-element md:w-[30%]">
+				<h2 class="font-display text-h3 font-semibold text-text-primary">
+					Ficha técnica
+				</h2>
+				<dl class="mt-element space-y-element">
+					<div>
+						<dt class="font-display text-caption font-medium tracking-[0.15em] text-text-secondary uppercase">
+							Año
+						</dt>
+						<dd class="mt-1 font-mono text-small text-text-primary">{año}</dd>
+					</div>
+					<div>
+						<dt class="font-display text-caption font-medium tracking-[0.15em] text-text-secondary uppercase">
+							Ubicación
+						</dt>
+						<dd class="mt-1 font-body text-small text-text-primary">{ubicacion}</dd>
+					</div>
+					<div>
+						<dt class="font-display text-caption font-medium tracking-[0.15em] text-text-secondary uppercase">
+							Categoría
+						</dt>
+						<dd class="mt-1 font-body text-small text-text-primary">{categoriaLabel}</dd>
+					</div>
+					<div>
+						<dt class="font-display text-caption font-medium tracking-[0.15em] text-text-secondary uppercase">
+							Cliente
+						</dt>
+						<dd class="mt-1 font-body text-small text-text-primary">Privado</dd>
+					</div>
+				</dl>
+			</aside>
+		</div>
+
+		<nav class="mt-component flex items-center justify-between gap-4 border-t border-text-primary/10 pt-component">
+			{anterior ? (
+				<Button href={`/proyectos/${anterior.id}`} variant="secondary">
+					← Anterior
+				</Button>
+			) : (
+				<Button variant="secondary" disabled>← Anterior</Button>
+			)}
+
+			<a
+				href="/proyectos"
+				class="font-display text-small font-medium text-accent transition-colors duration-base hover:text-accent-hover"
+			>
+				Volver a proyectos
+			</a>
+
+			{siguiente ? (
+				<Button href={`/proyectos/${siguiente.id}`} variant="secondary">
+					Siguiente →
+				</Button>
+			) : (
+				<Button variant="secondary" disabled>Siguiente →</Button>
+			)}
+		</nav>
+	</main>
+</BaseLayout>
