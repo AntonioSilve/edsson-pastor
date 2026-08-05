@@ -2,6 +2,9 @@
 import LogoPlaceholder from './atoms/LogoPlaceholder.astro';
 import HamburgerButton from './atoms/HamburgerButton.astro';
 import { NAV_LINKS } from '../consts';
+
+const currentPath = Astro.url.pathname;
+const isProyectos = currentPath === '/proyectos' || currentPath.startsWith('/proyectos/');
 ---
 
 <header id="site-header" class="sticky top-0 z-50 bg-base-white/90 backdrop-blur transition-all duration-base">
@@ -13,7 +16,12 @@ import { NAV_LINKS } from '../consts';
 				NAV_LINKS.map((link) => (
 					<a
 						href={link.href}
-						class="font-display text-sm font-medium text-text-secondary transition-colors duration-base hover:text-accent"
+						aria-current={link.href === '/proyectos' && isProyectos ? 'page' : undefined}
+						class={`font-display text-sm font-medium transition-colors duration-base hover:text-accent${
+							link.href === '/proyectos' && isProyectos
+								? ' text-accent'
+								: ' text-text-secondary'
+						}`}
 					>
 						{link.label}
 					</a>
@@ -31,7 +39,12 @@ import { NAV_LINKS } from '../consts';
 			NAV_LINKS.map((link) => (
 				<a
 					href={link.href}
-					class="mobile-link font-display text-2xl font-medium text-text-secondary transition-colors duration-base hover:text-accent"
+					aria-current={link.href === '/proyectos' && isProyectos ? 'page' : undefined}
+					class={`mobile-link font-display text-2xl font-medium transition-colors duration-base hover:text-accent${
+						link.href === '/proyectos' && isProyectos
+							? ' text-accent'
+							: ' text-text-secondary'
+					}`}
 				>
 					{link.label}
 				</a>

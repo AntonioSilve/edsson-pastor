@@ -2,7 +2,15 @@
 import MapaUbicacion from './MapaUbicacion.astro';
 import { CONTACT } from '../consts';
 
-const WEB3FORMS_ACCESS_KEY = 'TU_WEB3FORMS_KEY';
+// Para usar el formulario:
+//   1. Regístrate en https://web3forms.com
+//   2. Obtén tu Access Key
+//   3. Crea un archivo .env en la raíz con: WEB3FORMS_KEY=tu_key
+//   4. El formulario enviará a tu email configurado en tu tablero de Web3Forms.
+// La clave se lee de la variable de entorno; si no está configurada se usa un
+// placeholder para que el envío falle de forma controlada (estado "error").
+const WEB3FORMS_ACCESS_KEY =
+	import.meta.env.WEB3FORMS_KEY || 'TU_WEB3FORMS_KEY_PLACEHOLDER';
 ---
 
 <section id="contacto" class="scroll-mt-24 py-section">

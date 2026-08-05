@@ -1,0 +1,5 @@
+# Cloudflare Pages — configuración para despliegue con Wrangler
+# Alternativa al dashboard: `npx wrangler pages deploy dist --project-name=<tu-proyecto>`
+name = "edson-pastor-portafolio"
+compatibility_date = "2026-01-01"
+pages_build_output_dir = "dist"

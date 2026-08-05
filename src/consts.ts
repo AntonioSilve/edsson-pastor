@@ -9,17 +9,18 @@ export const SITE_URL = 'https://example.com';
 
 export const NAV_LINKS = [
 	{ href: '#servicios', label: 'Servicios' },
-	{ href: '#proyectos', label: 'Proyectos' },
+	{ href: '/proyectos', label: 'Proyectos' },
 	{ href: '#sobre-mi', label: 'Sobre mí' },
 	{ href: '#testimonios', label: 'Testimonios' },
 	{ href: '#contacto', label: 'Contacto' },
 ];
 
 export const CONTACT = {
-	phone: '+502 1234 5678',
-	phoneHref: 'tel:+50212345678',
-	email: 'hola@edsonpastor.com',
-	emailHref: 'mailto:hola@edsonpastor.com',
+	// Reemplaza con los datos reales del estudio antes de publicar.
+	phone: '+502 XXXX XXXX',
+	phoneHref: 'tel:+502XXXXXXXX',
+	email: 'contacto@edsonpastor.com',
+	emailHref: 'mailto:contacto@edsonpastor.com',
 	location: 'Totonicapán, Guatemala',
 };
 

@@ -1,63 +1,91 @@
-# Astro Starter Kit: Blog
+# Portafolio Digital — Arq. Edson Everaldo Pastor
 
-```sh
-npm create astro@latest -- --template blog
+Portafolio digital del arquitecto **Edson Everaldo Pastor** (Totonicapán, Guatemala).
+Sitio estático y de alto rendimiento generado con Astro, que presenta los servicios,
+proyectos, testimonios y un formulario de contacto.
+
+## Stack utilizado
+
+- **Astro 7** — framework estático (11ty-style island architecture, sin JS innecesario)
+- **Tailwind CSS v4** con el plugin `@tailwindcss/vite`
+- **Google Fonts**: DM Sans (display), Lora (body), JetBrains Mono (mono)
+- **Web3Forms** — envío del formulario de contacto (sin backend propio)
+
+## Desarrollo local
+
+Requisito: Node.js ≥ 22.12 y npm.
+
+```bash
+npm install       # instala dependencias
+npm run dev       # servidor de desarrollo en http://localhost:4321
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Build y preview
 
-Features:
+```bash
+npm run build     # genera el sitio estático en ./dist
+npm run preview   # sirve ./dist en local para verificar antes de publicar
+```
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+## Variables de entorno
 
-## 🚀 Project Structure
+Crea un archivo `.env` en la raíz del proyecto:
 
-Inside of your Astro project, you'll see the following folders and files:
+| Variable         | Obligatoria | Descripción                                                  |
+| ---------------- | ----------- | ------------------------------------------------------------ |
+| `WEB3FORMS_KEY`  | Solo en prod | Access Key de Web3Forms para el envío del formulario. |
 
-```text
-├── public/
+La clave se lee en `FormularioContacto.astro` desde `import.meta.env.WEB3FORMS_KEY`.
+Si no está definida, el formulario usará un placeholder y el envío fallará de forma
+controlada (muestra el estado de error).
+
+Pasos para activarlo:
+
+1. Regístrate en <https://web3forms.com>
+2. Crea un formulario y copia tu **Access Key**
+3. Añade `WEB3FORMS_KEY=tu_key` a tu `.env`
+4. En el panel de Web3Forms configura el email donde quieres recibir los mensajes
+
+> Los teléfonos/emails de contacto se centralizan en `src/consts.ts` (`CONTACT`).
+> Reemplaza los placeholders (`+502 XXXX XXXX`, `contacto@edsonpastor.com`) con los
+> datos reales antes de publicar.
+
+## Estructura de carpetas
+
+```
+├── public/                 # favicon, archivos estáticos
 ├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
+│   ├── components/
+│   │   ├── atoms/          # Logo, Button, Skeleton, Hamburger
+│   │   ├── Hero.astro
+│   │   ├── Header.astro    # navegación desktop + menú móvil
+│   │   ├── Footer.astro
+│   │   ├── Servicios.astro
+│   │   ├── SobreMi.astro
+│   │   ├── Testimonios.astro
+│   │   ├── FormularioContacto.astro
+│   │   ├── MapaUbicacion.astro
+│   │   ├── FiltroCategorias.astro
+│   │   ├── GridProyectos.astro      # carga infinita + skeletons
+│   │   ├── CardProyecto.astro
+│   │   └── CardProyectoSkeleton.astro
+│   ├── data/
+│   │   └── proyectos.js     # catálogo de proyectos
+│   ├── layouts/
+│   │   └── BaseLayout.astro # SEO, fuentes, Header/Footer, transiciones
+│   ├── pages/
+│   │   ├── index.astro
+│   │   ├── proyectos.astro
+│   │   └── proyectos/[id].astro
+│   ├── styles/global.css    # Tailwind, container, accesibilidad
+│   └── consts.ts            # datos globales y de contacto
 ├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+├── tailwind.config.mjs
+└── wrangler.toml
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Créditos
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+- Proyecto desarrollado con **Astro** y **Tailwind CSS**.
+- Maple y emoji favicon generados localmente (sin librerías externas de iconos).
+- Iconos SVG inline propios.
