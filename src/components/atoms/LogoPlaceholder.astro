@@ -1,0 +1,28 @@
+---
+interface Props {
+	compact?: boolean;
+	inverted?: boolean;
+}
+
+const { compact = false, inverted = false } = Astro.props;
+
+const navLabel = compact ? 'E. E. Pastor' : 'Edson Everaldo Pastor';
+
+const nameClass = inverted
+	? 'text-footer-text'
+	: 'text-text-primary group-hover:text-accent';
+const tagClass = inverted ? 'text-footer-text/70' : 'text-text-secondary';
+---
+
+<a href="/" class="group flex flex-col leading-none" aria-label="Ir al inicio">
+	<span
+		class={`font-display text-[20px] font-medium transition-colors duration-base group-hover:text-accent md:text-logo ${nameClass}`}
+	>
+		{navLabel}
+	</span>
+	<span
+		class={`mt-1 hidden text-[10px] font-medium tracking-[0.35em] uppercase md:block ${tagClass}`}
+	>
+		Arquitectura
+	</span>
+</a>

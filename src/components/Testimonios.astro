@@ -1,0 +1,117 @@
+---
+interface Testimonio {
+	quote: string;
+	author: string;
+	project: string;
+}
+
+const testimonios: Testimonio[] = [
+	{
+		quote:
+			'Edson transformó por completo nuestra casa. El diseño refleja exactamente lo que soñábamos.',
+		author: 'María López',
+		project: 'Proyecto Residencial — San Miguel Totonicapán',
+	},
+	{
+		quote:
+			'Profesionalismo y precisión en cada detalle. El local comercial superó nuestras expectativas.',
+		author: 'Carlos Ramírez',
+		project: 'Proyecto Comercial — Totonicapán',
+	},
+	{
+		quote:
+			'La medición del terreno fue impecable. Todo el proceso se sintió claro y seguro.',
+		author: 'Ana García',
+		project: 'Medición de Terreno — Cantel',
+	},
+];
+
+const carouselId = 'testimonios-track';
+const usePlaceholder = testimonios.length === 0;
+---
+
+<section id="testimonios" class="scroll-mt-24 py-section">
+	<div class="mx-auto max-w-6xl px-6 lg:px-8">
+		<h2 class="text-center font-display text-h2 font-semibold tracking-tight text-text-primary">
+			Lo que dicen mis clientes
+		</h2>
+
+		{
+			usePlaceholder && testimonios.length === 0 ? (
+				<p class="mt-component text-center font-body text-body text-text-secondary">
+					Los testimonios estarán disponibles pronto.
+				</p>
+			) : (
+				<div class="relative mt-element">
+					<div
+						id={carouselId}
+						class="flex snap-x snap-mandatory gap-component overflow-x-auto scroll-smooth pb-4"
+					>
+						{
+							testimonios.map(({ quote, author, project }) => (
+								<div
+									class="min-w-full snap-center rounded-lg bg-base-warm p-element md:min-w-0"
+								>
+									<blockquote class="font-body text-body italic text-text-primary">
+										“{quote}”
+									</blockquote>
+									<figcaption class="mt-element">
+										<p class="font-display text-small font-semibold text-accent">
+											{author}
+										</p>
+										<p class="mt-1 font-body text-caption text-text-secondary">
+											{project}
+										</p>
+									</figcaption>
+								</div>
+							))
+						}
+					</div>
+
+					<div class="mt-6 flex justify-center gap-3">
+						<button
+							id="testimonios-prev"
+							type="button"
+							aria-label="Testimonio anterior"
+							class="flex h-10 w-10 items-center justify-center rounded-full border border-accent bg-transparent text-accent transition-colors duration-base hover:bg-accent-light"
+						>
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="m15 18-6-6 6-6"></path>
+							</svg>
+						</button>
+						<button
+							id="testimonios-next"
+							type="button"
+							aria-label="Siguiente testimonio"
+							class="flex h-10 w-10 items-center justify-center rounded-full border border-accent text-accent transition-colors duration-base hover:bg-accent-light"
+						>
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="m9 18 6-6-6-6"></path>
+							</svg>
+						</button>
+					</div>
+				</div>
+			)
+		}
+	</div>
+</section>
+
+<script>
+	const track = document.getElementById('testimonios-track') as HTMLDivElement;
+	const prev = document.getElementById('testimonios-prev') as HTMLButtonElement;
+	const next = document.getElementById('testimonios-next') as HTMLButtonElement;
+
+	if (track && prev && next) {
+		const step = () => {
+			const card = track.querySelector(':scope > div');
+			return card ? card.getBoundingClientRect().width + card.offsetLeft : track.clientWidth;
+		};
+
+		prev.addEventListener('click', () => {
+			track.scrollBy({ left: -step(), behavior: 'smooth' });
+		});
+		next.addEventListener('click', () => {
+			track.scrollBy({ left: step(), behavior: 'smooth' });
+		});
+	}
+</script>
